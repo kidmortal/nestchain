@@ -1,5 +1,6 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { WalletsService } from './wallets.service';
+import { SendMoneyDto } from './dto/send-money.dto';
 
 @Controller('wallets')
 export class WalletsController {
@@ -11,7 +12,7 @@ export class WalletsController {
   }
 
   @Post('/sendMoney')
-  sendMoney() {
-    return this.walletsService.sendMoney();
+  sendMoney(@Body() sendMoneyDto: SendMoneyDto) {
+    return this.walletsService.sendMoney(sendMoneyDto);
   }
 }

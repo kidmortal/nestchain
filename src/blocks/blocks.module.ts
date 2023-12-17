@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { BlocksService } from './blocks.service';
-import { BlocksController } from './blocks.controller';
+import { ChainModule } from 'src/chain/chain.module';
 
 @Module({
-  imports: [],
-  controllers: [BlocksController],
+  imports: [ChainModule],
   providers: [BlocksService],
+  exports: [BlocksService],
 })
 export class BlocksModule {}
