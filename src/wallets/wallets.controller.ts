@@ -11,7 +11,7 @@ export class WalletsController {
     return this.walletsService.create();
   }
 
-  @Post('/sendMoney')
+  @Post('/send')
   sendMoney(@Body() sendMoneyDto: SendMoneyDto) {
     return this.walletsService.sendMoney(sendMoneyDto);
   }

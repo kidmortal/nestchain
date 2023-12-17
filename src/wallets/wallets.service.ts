@@ -42,12 +42,17 @@ export class WalletsService {
     const transaction = new Transaction(amount, publicKey, payeePublicKey);
     const sign = crypto.createSign('SHA256');
     sign.update(transaction.toString()).end();
-    const signature = sign.sign(privateKey);
-    this.blockService.create({
-      senderPublicKey: publicKey,
-      signature,
-      transaction,
-    });
-    return 'transaction sent';
+    try {
+      const signature = sign.sign(privateKey);
+      const block = {
+        senderPublicKey: publicKey,
+        signature,
+        transaction,
+      };
+      this.blockService.create(block);
+      return block;
+    } catch (error) {
+      return { message: 'invalid signature' };
+    }
   }
 }

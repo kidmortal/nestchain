@@ -41,6 +41,11 @@ export class ChainService {
     const attempt = hash.digest('hex');
     if (attempt.substring(0, 4) === '0000') {
       console.log(`Solution is valid`);
+      const validatedBlockIndex = this.pendingBlocks.findIndex(
+        (block) => block.nonce === nonce,
+      );
+      const block = this.pendingBlocks.splice(validatedBlockIndex, 1)[0];
+      this.chain.push(block);
       return true;
     } else {
       console.log(`Solution is wrong`);
