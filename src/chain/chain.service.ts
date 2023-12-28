@@ -39,7 +39,7 @@ export class ChainService {
     const hash = crypto.createHash('MD5');
     hash.update((nonce + solution).toString()).end();
     const attempt = hash.digest('hex');
-    if (attempt.substring(0, 4) === '0000') {
+    if (attempt.substring(0, 5) === '00000') {
       console.log(`Solution is valid`);
       const validatedBlockIndex = this.pendingBlocks.findIndex(
         (block) => block.nonce === nonce,

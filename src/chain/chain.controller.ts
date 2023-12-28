@@ -54,7 +54,7 @@ export class ChainController {
         };
       } else {
         return {
-          message: 'wrong solution',
+          message: 'wrong solution or block already validated',
         };
       }
     }
