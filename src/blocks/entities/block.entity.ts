@@ -7,6 +7,7 @@ export class Block {
   constructor(
     public prevHash: string | null,
     public transaction: Transaction,
+    public validator?: string,
     public ts = Date.now(),
   ) {}
 

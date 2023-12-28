@@ -25,7 +25,14 @@ export class ChainController {
   }
 
   @Post('/mine')
-  mineSolution(@Body() mineSolution: { nonce: number; solution: number }) {
+  mineSolution(
+    @Body()
+    mineSolution: {
+      nonce: number;
+      solution: number;
+      validator: string;
+    },
+  ) {
     const pendingBlock = this.chainService.pendingBlocks.find(
       (block) => block.nonce === mineSolution.nonce,
     );
@@ -38,6 +45,7 @@ export class ChainController {
       const validSolution = this.chainService.validateProof(
         mineSolution.nonce,
         mineSolution.solution,
+        mineSolution.validator,
       );
       if (validSolution) {
         return {

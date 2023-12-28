@@ -35,7 +35,7 @@ export class ChainService {
     }
   }
 
-  validateProof(nonce: number, solution: number) {
+  validateProof(nonce: number, solution: number, validator: string) {
     const hash = crypto.createHash('MD5');
     hash.update((nonce + solution).toString()).end();
     const attempt = hash.digest('hex');
@@ -45,31 +45,12 @@ export class ChainService {
         (block) => block.nonce === nonce,
       );
       const block = this.pendingBlocks.splice(validatedBlockIndex, 1)[0];
+      block.validator = validator;
       this.chain.push(block);
       return true;
     } else {
       console.log(`Solution is wrong`);
       return false;
-    }
-  }
-
-  addBlock(
-    transaction: Transaction,
-    senderPublicKey: string,
-    signature: Buffer,
-  ) {
-    const verifier = crypto.createVerify('SHA256');
-    verifier.update(transaction.toString());
-
-    const isValid = verifier.verify(senderPublicKey, signature);
-
-    if (isValid) {
-      console.log('valid transaction');
-      const newBlock = new Block(this.lastBlock.hash, transaction);
-      const proof = this.mine(newBlock.nonce);
-      if (this.validateProof(newBlock.nonce, proof)) {
-        this.chain.push(newBlock);
-      }
     }
   }
 }

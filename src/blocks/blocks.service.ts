@@ -3,10 +3,14 @@ import { Transaction } from 'src/transactions/entities/transaction.entity';
 import { Block } from './entities/block.entity';
 import { ChainService } from 'src/chain/chain.service';
 import * as crypto from 'crypto';
+import { SocketsService } from 'src/sockets/sockets.service';
 
 @Injectable()
 export class BlocksService {
-  constructor(private readonly chainService: ChainService) {}
+  constructor(
+    private readonly chainService: ChainService,
+    private readonly socket: SocketsService,
+  ) {}
   create({
     senderPublicKey,
     signature,
@@ -25,6 +29,7 @@ export class BlocksService {
       console.log('valid signature');
       const newBlock = new Block(this.chainService.lastBlock.hash, transaction);
       this.chainService.pendingBlocks.push(newBlock);
+      this.socket.broadcast('new_block_availabe', newBlock.nonce);
     }
   }
 }
