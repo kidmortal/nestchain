@@ -44,6 +44,9 @@ export class ChainService {
       const validatedBlockIndex = this.pendingBlocks.findIndex(
         (block) => block.nonce === nonce,
       );
+      if (validatedBlockIndex === -1) {
+        return false;
+      }
       const block = this.pendingBlocks.splice(validatedBlockIndex, 1)[0];
       block.validator = validator;
       this.chain.push(block);

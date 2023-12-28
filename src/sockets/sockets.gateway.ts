@@ -24,6 +24,7 @@ export class SocketsGateway
     @MessageBody() data: { nonce: number; solution: number; name: string },
     @ConnectedSocket() client: Socket,
   ) {
+    console.log(data);
     if (!data.name || !data.nonce || !data.solution) {
       return client.emit('block_solve', {
         success: false,
