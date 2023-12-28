@@ -15,7 +15,7 @@ export class SocketsGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
   constructor(
-    private readonly service: SocketsService,
+    private readonly socket: SocketsService,
     private readonly chain: ChainService,
   ) {}
 
@@ -38,6 +38,10 @@ export class SocketsGateway
       data.name,
     );
     if (validSolution) {
+      this.socket.broadcast('blockchain_updated', {
+        chain: this.chain.chain,
+        pendingBlocks: this.chain.pendingBlocks,
+      });
       return client.emit('block_solve', {
         success: true,
         message: 'Block validated',
@@ -52,13 +56,13 @@ export class SocketsGateway
 
   handleConnection(client: Socket) {
     console.log(`socket ${client.id} connected`);
-    this.service.wsClients.push(client);
+    this.socket.wsClients.push(client);
   }
 
   handleDisconnect(client: Socket) {
-    for (let i = 0; i < this.service.wsClients.length; i++) {
-      if (this.service.wsClients[i] === client) {
-        const disconnectedSocket = this.service.wsClients.splice(i, 1);
+    for (let i = 0; i < this.socket.wsClients.length; i++) {
+      if (this.socket.wsClients[i] === client) {
+        const disconnectedSocket = this.socket.wsClients.splice(i, 1);
         console.log(`socket ${disconnectedSocket[0].id} disconnected`);
         break;
       }
