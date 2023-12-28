@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { Transaction } from 'src/transactions/entities/transaction.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 
 export class Block {
   public nonce = Math.round(Math.random() * 999999999);

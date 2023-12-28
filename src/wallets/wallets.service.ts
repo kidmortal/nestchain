@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { BlocksService } from 'src/blocks/blocks.service';
-import { Transaction } from 'src/transactions/entities/transaction.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 
 @Injectable()
 export class WalletsService {

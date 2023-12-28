@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { Block } from 'src/blocks/entities/block.entity';
-import { Transaction } from 'src/transactions/entities/transaction.entity';
+import { Block } from 'src/entities/block.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 
 @Injectable()
 export class ChainService {
-  public static instance = new ChainService();
-  pendingBlocks: Block[];
-  chain: Block[];
+  pendingBlocks: Block[] = [];
+  chain: Block[] = [
+    new Block(null, new Transaction(100, 'genesis', 'satoshi')),
+  ];
 
-  constructor() {
-    this.chain = [new Block(null, new Transaction(100, 'genesis', 'satoshi'))];
-    this.pendingBlocks = [];
-  }
+  constructor() {}
 
   get lastBlock() {
     return this.chain[this.chain.length - 1];

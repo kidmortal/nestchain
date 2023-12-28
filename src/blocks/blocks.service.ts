@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Transaction } from 'src/transactions/entities/transaction.entity';
-import { Block } from './entities/block.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 import { ChainService } from 'src/chain/chain.service';
 import * as crypto from 'crypto';
 import { SocketsService } from 'src/sockets/sockets.service';
+import { Block } from 'src/entities/block.entity';
 
 @Injectable()
 export class BlocksService {
